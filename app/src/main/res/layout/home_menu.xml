@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/layoutmenu"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="286dp"
+            android:layout_height="wrap_content"
+            android:text="Menu"
+            android:textSize="40dp" />
+
+        <ImageView
+            android:id="@+id/menuaccount"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:src="@drawable/menuaccount" />
+
+        <ImageView
+            android:id="@+id/menucart"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:src="@drawable/menu_cart" />
+
+        <ImageView
+            android:id="@+id/menulogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logoutmenu" />
+
+    </LinearLayout>
+</LinearLayout>

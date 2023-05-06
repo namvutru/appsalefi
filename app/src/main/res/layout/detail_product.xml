@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imgAnhchitiet"
+        android:layout_width="match_parent"
+        android:layout_height="274dp" />
+
+    <TextView
+        android:id="@+id/textTenchitiet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ten"
+        android:textSize="40dp"/>
+
+    <TextView
+        android:id="@+id/textMotachitiet"
+        android:layout_width="match_parent"
+        android:layout_height="236dp"
+        android:text="Mo ta chi tiet"
+        android:textSize="15dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCancelchitiet"
+            android:layout_width="216dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+        <Button
+            android:id="@+id/buttonAddtocart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add to card"
+            />
+    </LinearLayout>
+</LinearLayout>
+
+</ScrollView>

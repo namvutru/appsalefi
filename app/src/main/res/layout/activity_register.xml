@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Header -->
+    <TextView
+        android:text="Đăng ký"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Full name -->
+    <EditText
+        android:id="@+id/textusename"
+        android:hint="Họ và tên"
+        android:textSize="18sp"
+        android:textColorHint="@color/purple_500"
+        android:backgroundTint="@color/purple_500"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Email -->
+    <EditText
+        android:id="@+id/textemail"
+        android:hint="Email"
+        android:textSize="18sp"
+        android:textColorHint="@color/purple_500"
+        android:backgroundTint="@color/purple_500"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Password -->
+    <EditText
+        android:id="@+id/textpass"
+        android:hint="Mật khẩu"
+        android:textSize="18sp"
+        android:textColorHint="@color/purple_500"
+        android:backgroundTint="@color/purple_500"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Confirm password -->
+    <EditText
+        android:id="@+id/textcfpass"
+        android:hint="Xác nhận mật khẩu"
+        android:textSize="18sp"
+        android:textColorHint="@color/purple_500"
+        android:backgroundTint="@color/purple_500"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Register button -->
+    <Button
+        android:id="@+id/btregister"
+        android:text="Đăng ký"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@color/purple_500"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Sign in link -->
+    <TextView
+        android:id="@+id/textlogin"
+        android:text="Đã có tài khoản? Đăng nhập ngay!"
+        android:textSize="16sp"
+        android:textColor="@color/purple_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

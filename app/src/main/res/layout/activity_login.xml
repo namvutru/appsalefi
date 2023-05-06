@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Header -->
+    <TextView
+        android:text="Đăng nhập"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Username -->
+    <EditText
+        android:hint="Tài khoản gmail"
+        android:textSize="18sp"
+        android:textColorHint="@color/purple_500"
+        android:backgroundTint="@color/black"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/textEmail"/>
+
+    <!-- Password -->
+    <EditText
+        android:hint="Mật khẩu"
+        android:textSize="18sp"
+        android:textColorHint="@color/purple_500"
+        android:backgroundTint="@color/purple_500"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/textPassword"/>
+
+    <!-- Login button -->
+    <Button
+        android:text="Đăng nhập"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@color/purple_500"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonLogin"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/imggoogle"
+        android:id="@+id/imggoogle"/>
+
+    <!-- Sign up link -->
+    <TextView
+        android:id="@+id/textregister"
+        android:text="Chưa có tài khoản? Đăng ký ngay!"
+        android:textSize="16sp"
+        android:textColor="@color/purple_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
