@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,10 +20,11 @@ import com.example.crudfirebase.model.Product;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductRecycleHomeAdapter extends RecyclerView.Adapter<ProductRecycleHomeAdapter.ViewHolder> {
     Context context;
-    ArrayList<Product> productlist;
+    ArrayList<Product> productlist,productOldlist;
     String username ;
 
 
@@ -64,8 +67,13 @@ public class ProductRecycleHomeAdapter extends RecyclerView.Adapter<ProductRecyc
 
     @Override
     public int getItemCount() {
-        return productlist.size();
+        if(productlist!=null) {
+            return productlist.size();
+        }
+        return 0;
     }
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView textTen,textGia,textLoai,textSoluong;
         ImageView imgAnh;

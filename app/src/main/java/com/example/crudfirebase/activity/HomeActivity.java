@@ -1,6 +1,7 @@
 package com.example.crudfirebase.activity;
 
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +17,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.widget.Toast;
@@ -35,6 +39,7 @@ import com.example.crudfirebase.adapter.ProductRecycleHomeAdapter;
 import com.example.crudfirebase.R;
 import com.example.crudfirebase.model.User;
 import com.example.crudfirebase.session.SessionManagement;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -48,7 +53,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.paypal.android.sdk.ad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
+    SearchView searchView;
 
 
     @Override
@@ -133,8 +141,9 @@ public class HomeActivity extends AppCompatActivity {
                     {
                         goAccountActivity();
                         break;
-                    }case  R.id.search:
+                    }case  R.id.order:
                     {
+                        goOrderActivity();
                         break;
                     }
 
@@ -200,6 +209,24 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.toolbarsearch).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                searchProductByName(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchProductByName(s);
+
+                return false;
+            }
+        });
         return true;
     }
 
@@ -217,6 +244,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void readData() {
 
@@ -237,6 +265,33 @@ public class HomeActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void searchProductByName(String productName) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Product");
+
+        Query query = reference.orderByChild("ten").startAt(productName).endAt(productName + "\uf8ff");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                ArrayList<Product> prolist = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Product product = dataSnapshot.getValue(Product.class);
+                    prolist.add(product);
+                }
+                adapter =new ProductRecycleHomeAdapter(HomeActivity.this,prolist);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -274,6 +329,19 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent =  new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
     }
+    private void goOrderActivity(){
+        Intent intent =  new Intent(HomeActivity.this, OrderActivity.class);
+        startActivity(intent);
+    }
+
+    private void goCartActivity(){
+        Intent intent =  new Intent(HomeActivity.this, CartActivity.class);
+        startActivity(intent);
+    }
+    private void goAccountActivity(){
+        Intent intent =  new Intent(getApplicationContext(), AccountActivity.class);
+        startActivity(intent);
+    }
     private void logout(FirebaseUser user, GoogleSignInAccount account){
         SessionManagement sessionManagement = new SessionManagement(getApplicationContext());
         sessionManagement.removeAll();
@@ -292,12 +360,9 @@ public class HomeActivity extends AppCompatActivity {
         }
 
     }
-    private void goCartActivity(){
-        Intent intent =  new Intent(HomeActivity.this, CartActivity.class);
-        startActivity(intent);
-    }
-    private void goAccountActivity(){
-        Intent intent =  new Intent(getApplicationContext(), AccountActivity.class);
-        startActivity(intent);
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
