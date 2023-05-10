@@ -86,6 +86,8 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else {
                     Toast.makeText(getApplicationContext(), "Tao tai khong thanh cong", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 }
             }
         });
