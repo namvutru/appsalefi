@@ -6,6 +6,8 @@ import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,7 @@ public class CartActivity extends AppCompatActivity {
     TextView texttongtien;
     ArrayList<ItemCart> listcart;
     ItemCartRecycleAdapter adapter;
+    RadioGroup radioGroup;
     float tongtien=0;
 
     public static final int PAYPAL_REQUEST_CODE= 7171;
@@ -73,6 +76,7 @@ public class CartActivity extends AppCompatActivity {
         recyclerViewcart = findViewById(R.id.recyclerViewcart);
         btThanhtoan = findViewById(R.id.buttonThanhtoan);
         texttongtien=findViewById(R.id.texttongiten);
+        radioGroup = findViewById(R.id.radiobutton);
         recyclerViewcart.setHasFixedSize(true);
         recyclerViewcart.setLayoutManager(new LinearLayoutManager(this));
 
@@ -82,14 +86,38 @@ public class CartActivity extends AppCompatActivity {
 
         readData();
 
-        btThanhtoan.setOnClickListener(new View.OnClickListener() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                themDonhangmoi();
-                processPayment();
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton checkedRadioButton = findViewById(i);
+                String selectedText = checkedRadioButton.getText().toString();
+                Toast.makeText(getApplicationContext(), "Đã chọn: " + selectedText, Toast.LENGTH_SHORT).show();
+                if(selectedText.equals("Thanh toán khi nhận hàng")){
+                    btThanhtoan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            goOrderActivity();
+                            themDonhangmoi();
+                        }
+                    });
+
+                }
+
+                if(selectedText.equals("Paypal")){
+                    btThanhtoan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            processPayment();
+                            themDonhangmoi();
+                        }
+                    });
+
+                }
 
             }
         });
+
+
 
 
     }
@@ -98,6 +126,7 @@ public class CartActivity extends AppCompatActivity {
     protected void onDestroy() {
         stopService(new Intent(this,PayPalService.class));
         super.onDestroy();
+
     }
 
     @Override
@@ -145,7 +174,7 @@ public class CartActivity extends AppCompatActivity {
                         listcart.add(itemCart);
                     }
                 }
-                texttongtien.setText("Tổng tiền: "+String.valueOf(tongtien));
+                texttongtien.setText("Tổng tiền: "+String.valueOf(tongtien)+"$");
                 adapter = new ItemCartRecycleAdapter(CartActivity.this,listcart);
                 recyclerViewcart.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -167,7 +196,7 @@ public class CartActivity extends AppCompatActivity {
         String username = sessionManagement.getUser();
 
         DatabaseReference proRef = FirebaseDatabase.getInstance().getReference("Cart");
-        proRef.addValueEventListener(new ValueEventListener() {
+        proRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -194,6 +223,13 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void goOrderActivity(){
+        Intent intent =  new Intent(CartActivity.this, OrderActivity.class);
+        startActivity(intent);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
 }

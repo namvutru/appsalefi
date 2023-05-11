@@ -73,7 +73,7 @@ public class ItemCartRecycleAdapter extends RecyclerView.Adapter<ItemCartRecycle
                         pro.setTen(product.getTen());
                         pro.setGia(product.getGia());
                         holder.textTen.setText(product.getTen());
-                        holder.textGia.setText(String.valueOf(product.getGia()));
+                        holder.textGia.setText("Giá: "+String.valueOf(product.getGia())+"$");
                         Glide.with(context).load(product.getAnh()).into(holder.imganh);
                     }
                 }

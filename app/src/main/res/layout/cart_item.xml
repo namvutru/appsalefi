@@ -23,39 +23,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="name"
-            android:textSize="20dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/textGiacart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="gia"
-            android:textSize="20dp" />
+            android:textSize="12dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số lượng: "
+                android:textSize="12dp"/>
             <ImageView
                 android:id="@+id/imgcartcong"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/cong" />
 
             <TextView
                 android:id="@+id/textSoluongcart"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:text="soluong"
-                android:textSize="20dp" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="0"
+                android:textSize="10dp" />
+
             <ImageView
                 android:id="@+id/imgcarttru"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/tru"/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/tru" />
         </LinearLayout>
-
-
     </LinearLayout>
 
 </LinearLayout>

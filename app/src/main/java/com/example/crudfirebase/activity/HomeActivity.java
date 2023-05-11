@@ -8,16 +8,20 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
@@ -30,6 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +63,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.paypal.android.sdk.ad;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -67,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
     ProductRecycleHomeAdapter adapter;
 
     ViewFlipper viewFlipper;
-    ImageView imgcart;
+    Spinner spinner;
     TextView textAccount,headergmail,headername;
 
     DrawerLayout drawerLayout ;
@@ -88,7 +94,8 @@ public class HomeActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -105,7 +112,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         SessionManagement sessionManagement = new SessionManagement(getApplicationContext());
-        textAccount.setText(sessionManagement.getUser());
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("User");
         DatabaseReference user1Ref = ref.child(sessionManagement.getUser());
@@ -115,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 User user= snapshot.getValue(User.class);
                 headergmail.setText(String.valueOf(user.getGmail()));
+                textAccount.setText("Xin chào "+user.getNameuser());
                 headername.setText(String.valueOf(user.getNameuser()));
 
             }
@@ -173,6 +181,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         actionToolBar();
+        loadSpinner();
 
         ActionViewFlipper();
         readData();
@@ -188,8 +197,7 @@ public class HomeActivity extends AppCompatActivity {
         headername= headerView.findViewById(R.id.textUsernamemenu);
         headergmail =headerView.findViewById(R.id.textgmailmenu);
         viewFlipper = findViewById(R.id.viewflipper);
-
-
+        spinner = findViewById(R.id.spinner);
         recyclerView = findViewById(R.id.recyclerView);
     }
 
@@ -304,11 +312,15 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Iterable<DataSnapshot> userSnapshots = snapshot.getChildren();
                 for (DataSnapshot userSnapshot : userSnapshots) {
+                    LayoutInflater inflater = LayoutInflater.from(HomeActivity.this);
+                    View layout = inflater.inflate(R.layout.flip_run, viewFlipper, false);
                     Product product = userSnapshot.getValue(Product.class);
-                    ImageView imageView = new ImageView(getApplicationContext());
+                    ImageView imageView = layout.findViewById(R.id.imageView);
+                    TextView ten = layout.findViewById(R.id.textTen);
+                    ten.setText(product.getTen());
                     Glide.with(getApplicationContext()).load(product.getAnh()).into(imageView);
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    viewFlipper.addView(imageView);
+                    viewFlipper.addView(layout);
                 }
             }
             @Override
@@ -322,6 +334,72 @@ public class HomeActivity extends AppCompatActivity {
         Animation slide_out = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_out_right);
         viewFlipper.setInAnimation(slide_in);
         viewFlipper.setOutAnimation(slide_out);
+
+    }
+    private void loadSpinner(){
+        List<String> uniqueValues = new ArrayList<>();
+        DatabaseReference Ref = FirebaseDatabase.getInstance().getReference("Product");
+        Ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Lấy các giá trị khác nhau của thuộc tính từ nút con
+
+                uniqueValues.add("Tất cả");
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String attributeValue = childSnapshot.child("loai").getValue(String.class);
+                    if (!uniqueValues.contains(attributeValue)) {
+                        uniqueValues.add(attributeValue);
+                        System.out.println(attributeValue+"===================");
+                    }
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_spinner_item, uniqueValues);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý khi có lỗi xảy ra trong quá trình đọc dữ liệu
+            }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = uniqueValues.get(position);
+                if(selectedItem.equals("Tất cả")){
+                    readData();
+                }else {
+                    DatabaseReference proRef = FirebaseDatabase.getInstance().getReference("Product");
+                    proRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            productArrayList.clear();
+                            Iterable<DataSnapshot> userSnapshots = snapshot.getChildren();
+                            for (DataSnapshot userSnapshot : userSnapshots) {
+                                Product product = userSnapshot.getValue(Product.class);
+                                if(product.getLoai().equals(selectedItem)){
+                                    productArrayList.add(product);
+                                }
+                            }
+                            adapter = new ProductRecycleHomeAdapter(HomeActivity.this, productArrayList);
+                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Xử lý khi không có mục nào được chọn
+            }
+        });
 
     }
     private void goHomeActivity(){

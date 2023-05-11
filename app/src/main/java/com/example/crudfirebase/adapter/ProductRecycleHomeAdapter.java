@@ -48,9 +48,9 @@ public class ProductRecycleHomeAdapter extends RecyclerView.Adapter<ProductRecyc
     @Override
     public void onBindViewHolder(@NonNull ProductRecycleHomeAdapter.ViewHolder holder, int position) {
         Product product = productlist.get(position);
-       holder.textGia.setText(String.valueOf(product.getGia()));
-        holder.textLoai.setText(product.getLoai());
-        holder.textSoluong.setText(String.valueOf(product.getSoluong()));
+       holder.textGia.setText("Giá: "+String.valueOf(product.getGia())+"$");
+        holder.textLoai.setText("Loại: "+product.getLoai());
+        holder.textSoluong.setText("Số lượng: "+String.valueOf(product.getSoluong()));
         holder.textTen.setText(product.getTen());
         String imageUrl = product.getAnh();
         Glide.with(context).load(imageUrl).into(holder.imgAnh);

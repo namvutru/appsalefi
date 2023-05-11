@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/register">
 
     <!-- Header -->
     <TextView
         android:text="Đăng ký"
         android:textSize="24sp"
-        android:textColor="@color/black"
+        android:textColor="@color/purple_200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"/>
@@ -21,8 +22,8 @@
         android:id="@+id/textusename"
         android:hint="Họ và tên"
         android:textSize="18sp"
-        android:textColorHint="@color/purple_500"
-        android:backgroundTint="@color/purple_500"
+        android:textColorHint="@color/purple_200"
+        android:backgroundTint="@color/purple_200"
         android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,8 +34,8 @@
         android:id="@+id/textemail"
         android:hint="Email"
         android:textSize="18sp"
-        android:textColorHint="@color/purple_500"
-        android:backgroundTint="@color/purple_500"
+        android:textColorHint="@color/purple_200"
+        android:backgroundTint="@color/purple_200"
         android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,8 +47,8 @@
         android:id="@+id/textpass"
         android:hint="Mật khẩu"
         android:textSize="18sp"
-        android:textColorHint="@color/purple_500"
-        android:backgroundTint="@color/purple_500"
+        android:textColorHint="@color/purple_200"
+        android:backgroundTint="@color/purple_200"
         android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,8 +60,8 @@
         android:id="@+id/textcfpass"
         android:hint="Xác nhận mật khẩu"
         android:textSize="18sp"
-        android:textColorHint="@color/purple_500"
-        android:backgroundTint="@color/purple_500"
+        android:textColorHint="@color/purple_200"
+        android:backgroundTint="@color/purple_200"
         android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +74,7 @@
         android:text="Đăng ký"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:background="@color/purple_500"
+        android:background="@color/purple_200"
         android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -83,7 +84,7 @@
         android:id="@+id/textlogin"
         android:text="Đã có tài khoản? Đăng nhập ngay!"
         android:textSize="16sp"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/purple_200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"/>
